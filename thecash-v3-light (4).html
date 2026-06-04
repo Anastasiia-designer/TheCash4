@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cash — Content Papa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#FAF7F2;
+  --bg2:#F3EDE3;
+  --bg3:#EDE5D5;
+  --surface:#FFFFFF;
+  --surface2:#F8F4EE;
+  --surface3:#F0E9DD;
+  --border:rgba(30,18,6,.08);
+  --border2:rgba(30,18,6,.14);
+  --text:#1A0F06;
+  --text2:#6B5540;
+  --text3:#A08060;
+  --accent:#B81C1C;
+  --accent2:#C82424;
+  --accent3:#E03030;
+  --green:#15803D;
+  --green2:#16A34A;
+  --amber:#B45309;
+  --red:#B91C1C;
+  --glow:rgba(184,28,28,.10);
+  --glow2:rgba(184,28,28,.04);
+  --gold:#9A6F0A;
+  --gold2:#C49020;
+
+  /* ═══════════════════════════════════════
+     HERO — всі налаштування тут
+     ═══════════════════════════════════════ */
+  --hero-img:           url('./author.png'); /* ← поміняй файл фото */
+  --hero-img-pos:       55% top;            /* ← позиція фото: center / top / 60% */
+  --hero-img-sat:       1.15;               /* ← насиченість фото (1 = норма) */
+  --hero-img-contrast:  1.05;               /* ← контраст фото */
+
+  --hero-overlay-left:  rgba(26,15,6,.82);  /* ← темрява лівого краю */
+  --hero-overlay-mid:   rgba(26,15,6,.40);  /* ← середина — прозора, щоб автор видний */
+  --hero-overlay-fade:  rgba(26,15,6,.55);  /* ← перехід до картки */
+  --hero-overlay-right: rgba(26,15,6,.72);  /* ← правий край — темніший для картки */
+  --hero-red-glow:      rgba(184,28,28,.20);/* ← червоний відблиск знизу */
+
+  --hero-h1-size:       clamp(44px,6vw,76px); /* ← розмір заголовку */
+  --hero-card-bg:       rgba(255,255,255,.75); /* ← фон картки (glass) */
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px;}
+
+/* grid bg */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(184,28,28,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,28,28,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(184,28,28,.07),transparent);
+  pointer-events:none;z-index:0;
+}
+
+/* ── UTILS ── */
+.container{max-width:1160px;margin:0 auto;padding:0 2rem;position:relative;z-index:1;}
+.jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
+.serif{font-family:'Instrument Serif',serif;}
+.grad{background:linear-gradient(135deg,#B81C1C,#C82424,#9A6F0A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.grad-green{background:linear-gradient(135deg,#15803D,#16A34A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* pill badge */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(184,28,28,.18);
+  border:1px solid rgba(184,28,28,.45);
+  color:#FF8080;
+  font-size:12px;font-weight:600;letter-spacing:.05em;
+  padding:5px 14px;border-radius:999px;
+  margin-bottom:1.5rem;
+  backdrop-filter:blur(8px);
+}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#FF6060;box-shadow:0 0 6px rgba(255,80,80,.6);}
+
+/* glass card */
+.glass{
+  background:rgba(255,255,255,.75);
+  border:1px solid var(--border);
+  border-radius:16px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 2px 16px rgba(30,18,6,.06);
+}
+.glass:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(30,18,6,.10);}
+
+/* glow btn */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#B81C1C,#D02828);
+  color:#FAF7F2;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;
+  text-decoration:none;padding:16px 32px;
+  border-radius:12px;
+  box-shadow:0 0 0 1px rgba(184,28,28,.25),0 6px 24px rgba(184,28,28,.22);
+  transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(184,28,28,.35),0 10px 32px rgba(184,28,28,.30);}
+.btn-primary:hover::before{opacity:1;}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.25);
+  color:#FAF7F2;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:600;
+  text-decoration:none;padding:15px 32px;
+  border-radius:12px;
+  transition:all .25s;
+  backdrop-filter:blur(8px);
+}
+.btn-secondary:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.40);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);
+  z-index:200;width:calc(100% - 4rem);max-width:1000px;
+  background:rgba(250,247,242,.92);
+  border:1px solid var(--border);
+  border-radius:16px;
+  backdrop-filter:blur(24px);
+  padding:0 1.5rem;
+  display:flex;align-items:center;height:56px;
+  box-shadow:0 4px 24px rgba(30,18,6,.08);
+}
+.nav-logo{
+  font-size:18px;font-weight:800;color:var(--text);
+  text-decoration:none;margin-right:2.5rem;letter-spacing:-.02em;
+  white-space:nowrap;
+}
+.nav-logo span{color:var(--accent2);}
+.nav-links{display:flex;list-style:none;gap:.25rem;flex:1;}
+.nav-links a{
+  padding:6px 14px;border-radius:8px;
+  font-size:13px;font-weight:500;color:var(--text2);
+  text-decoration:none;transition:all .2s;
+}
+.nav-links a:hover{background:rgba(30,18,6,.06);color:var(--text);}
+.nav-cta{
+  margin-left:auto;
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#B81C1C,#D02828);
+  color:#FAF7F2;font-size:13px;font-weight:700;
+  text-decoration:none;padding:8px 20px;border-radius:8px;
+  box-shadow:0 2px 10px rgba(184,28,28,.22);
+  transition:all .2s;white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,28,28,.30);}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;padding:100px 0 80px;
+  position:relative;overflow:hidden;
+}
+/* фонове фото — змінюй через --hero-img у :root */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:var(--hero-img);
+  background-size:cover;background-position:var(--hero-img-pos);
+  background-repeat:no-repeat;z-index:0;
+  filter:saturate(var(--hero-img-sat)) contrast(var(--hero-img-contrast));
+}
+/* overlay градієнт — змінюй через --hero-overlay-* у :root */
+#hero::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(105deg,
+      var(--hero-overlay-left)  0%,
+      var(--hero-overlay-left) 22%,
+      var(--hero-overlay-mid)  42%,
+      var(--hero-overlay-fade) 60%,
+      var(--hero-overlay-right)100%),
+    linear-gradient(0deg, var(--hero-red-glow) 0%, transparent 55%);
+  z-index:1;
+}
+#hero .container{position:relative;z-index:2;padding:0;max-width:100%;width:100%;}
+
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;align-items:center;
+  width:100%;
+  padding:0;
+}
+@media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:3rem;}}
+
+/* лівий блок — текст */
+.hero-h1{
+  font-size:var(--hero-h1-size);font-weight:800;
+  line-height:1.08;letter-spacing:-.03em;
+  color:#FAF7F2;margin-bottom:1.5rem;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.hero-h1 .italic{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-weight:400;font-size:1.05em;color:#FAF7F2;
+}
+.hero-sub{
+  font-size:18px;color:rgba(255,245,235,.78);
+  line-height:1.75;max-width:480px;
+  margin-bottom:2.5rem;font-weight:400;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:3rem;}
+.hero-trust{display:flex;gap:2rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:8px;}
+.trust-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green2);box-shadow:0 0 8px var(--green);
+}
+.trust-text{font-size:13px;color:rgba(255,245,235,.65);}
+
+/* правий блок — картка ціни */
+.hero-card{padding:2rem;position:relative;max-width:400px;width:100%;}
+.hero-card::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(135deg,rgba(184,28,28,.25),rgba(154,111,10,.12) 50%,transparent);
+  border-radius:17px;z-index:-1;
+}
+.hc-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem;
+}
+.hc-price{
+  font-size:52px;font-weight:800;color:var(--text);
+  letter-spacing:-.03em;line-height:1;margin-bottom:.25rem;
+}
+.hc-price small{font-size:26px;color:var(--text2);}
+.hc-note{font-size:13px;color:var(--text3);margin-bottom:1.75rem;}
+.hc-features{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem;}
+.hc-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text2);}
+.hc-features li::before{
+  content:'';width:18px;height:18px;flex-shrink:0;border-radius:50%;
+  background:rgba(21,128,61,.12) url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L4 7L9 1' stroke='%2316A34A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  border:1px solid rgba(22,163,74,.28);
+}
+.hc-btn{
+  display:block;text-align:center;
+  background:linear-gradient(135deg,#B81C1C,#D02828);
+  color:#FAF7F2;font-size:15px;font-weight:700;
+  text-decoration:none;padding:16px;border-radius:10px;
+  box-shadow:0 4px 18px rgba(184,28,28,.25);
+  transition:all .25s;margin-bottom:1rem;
+}
+.hc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,28,28,.32);}
+.hc-guarantee{font-size:12px;color:var(--text3);text-align:center;}
+
+/* ── STATS STRIP ── */
+.stats-strip{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(8px);
+}
+.stats-inner{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  divide-x:1px solid var(--border);
+}
+@media(max-width:700px){.stats-inner{grid-template-columns:repeat(2,1fr);}}
+.stat-cell{
+  padding:2rem;
+  border-right:1px solid var(--border);
+  text-align:center;
+}
+.stat-cell:last-child{border-right:none;}
+.stat-num{
+  font-size:32px;font-weight:800;letter-spacing:-.03em;
+  color:var(--text);display:block;margin-bottom:.25rem;
+}
+.stat-num.accent{color:var(--accent2);}
+.stat-label{font-size:13px;color:var(--text3);}
+
+/* ── SECTION BASE ── */
+section{padding:7rem 0;position:relative;z-index:1;}
+.section-label{
+  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.75rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::before{content:'';display:block;width:16px;height:2px;background:var(--accent);border-radius:1px;}
+h2{font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--text);}
+h2 .italic{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.05em;}
+
+/* ── FOR WHOM ── */
+#for-whom{background:transparent;}
+.fw-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;gap:2rem;flex-wrap:wrap;}
+.fw-header p{font-size:16px;color:var(--text2);max-width:400px;line-height:1.7;}
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border-radius:20px;overflow:hidden;}
+.fw-card{
+  background:var(--surface);padding:2rem 1.75rem;
+  transition:background .25s;
+  position:relative;
+}
+.fw-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.fw-card:hover{background:var(--surface2);}
+.fw-card:hover::before{transform:scaleX(1);}
+.fw-num{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--text3);margin-bottom:1.25rem;}
+.fw-card h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:.6rem;}
+.fw-card p{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:1rem;}
+.fw-result{font-size:12px;color:var(--green);font-weight:600;display:flex;gap:6px;align-items:flex-start;}
+.fw-result::before{content:'↗';flex-shrink:0;}
+
+/* ── BONUSES ── */
+#bonuses{background:var(--bg2);}
+.bonus-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;align-items:center;}
+@media(max-width:900px){.bonus-grid{grid-template-columns:1fr;}}
+.bonus-card{padding:2rem;transition:all .25s;cursor:default;}
+.bonus-card.main{
+  grid-column:span 1;
+  border-color:rgba(184,28,28,.25);
+  position:relative;overflow:hidden;
+}
+.bonus-card.featured{
+  background:linear-gradient(145deg,#B81C1C,#9A1010);
+  border:none;
+  border-radius:20px;
+  padding:2.5rem 2rem;
+  transform:scale(1.05);
+  box-shadow:0 20px 60px rgba(184,28,28,.35),0 4px 20px rgba(0,0,0,.15);
+}
+.bonus-card.featured h3{color:#FAF7F2;font-size:20px;}
+.bonus-card.featured .bonus-sub{color:rgba(255,235,220,.65);}
+.bonus-card.featured li{color:rgba(255,235,220,.9);}
+.bonus-card.featured li::before{color:rgba(255,200,180,.6);}
+.bonus-card.featured .bonus-icon{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);}
+.bonus-featured-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.30);
+  color:#FAF7F2;
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:999px;
+  margin-bottom:1.25rem;
+}
+.bonus-card.main::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
+  pointer-events:none;
+}
+.bonus-card:not(.featured):hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);}
+.bonus-card.featured:hover{transform:scale(1.07);box-shadow:0 28px 70px rgba(184,28,28,.40);}
+.bonus-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:1.5rem;
+}
+.bonus-icon.purple{background:rgba(184,28,28,.08);border:1px solid rgba(184,28,28,.18);}
+.bonus-icon.green{background:rgba(21,128,61,.08);border:1px solid rgba(22,163,74,.2);}
+.bonus-icon.amber{background:rgba(154,111,10,.08);border:1px solid rgba(154,111,10,.2);}
+.bonus-card h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+.bonus-card .bonus-sub{font-size:13px;color:var(--text3);margin-bottom:1.25rem;}
+.bonus-card ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.bonus-card li{font-size:14px;color:var(--text2);padding-left:1.2rem;position:relative;}
+.bonus-card li::before{content:'·';position:absolute;left:0;color:var(--accent);}
+
+/* ── PROGRAM ── */
+#program{background:transparent;}
+.prog-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;gap:2rem;flex-wrap:wrap;}
+
+/* Timeline layout */
+.prog-grid{
+  position:relative;
+  display:flex;flex-direction:column;gap:0;
+}
+.prog-grid::before{
+  content:'';
+  position:absolute;left:50%;top:0;bottom:0;
+  width:2px;
+  background:linear-gradient(180deg,transparent,rgba(184,28,28,.25) 5%,rgba(184,28,28,.25) 95%,transparent);
+  transform:translateX(-50%);
+}
+.prog-item{
+  display:grid;
+  grid-template-columns:1fr 80px 1fr;
+  align-items:center;
+  gap:0;
+  padding:2rem 0;
+  position:relative;
+}
+/* odd items: content left, empty right */
+.prog-item:nth-child(odd) .prog-body{grid-column:1;text-align:right;padding-right:3rem;}
+.prog-item:nth-child(odd) .prog-day-circle{grid-column:2;}
+.prog-item:nth-child(odd) .prog-spacer{grid-column:3;}
+
+/* even items: empty left, content right */
+.prog-item:nth-child(even) .prog-spacer{grid-column:1;}
+.prog-item:nth-child(even) .prog-day-circle{grid-column:2;}
+.prog-item:nth-child(even) .prog-body{grid-column:3;text-align:left;padding-left:3rem;}
+
+/* center circle */
+.prog-day-circle{
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,#B81C1C,#D02828);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:800;color:#FAF7F2;
+  box-shadow:0 4px 20px rgba(184,28,28,.35);
+  position:relative;z-index:2;
+  justify-self:center;
+  flex-shrink:0;
+  transition:transform .2s,box-shadow .2s;
+}
+.prog-item:hover .prog-day-circle{transform:scale(1.1);box-shadow:0 8px 28px rgba(184,28,28,.45);}
+
+.prog-spacer{display:block;}
+
+.prog-body{padding:1.5rem;}
+.prog-body h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:.5rem;line-height:1.3;}
+.prog-body p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:.75rem;}
+.prog-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.prog-item:nth-child(odd) .prog-tags{justify-content:flex-end;}
+.prog-item:nth-child(even) .prog-tags{justify-content:flex-start;}
+.ptag{
+  font-size:11px;font-weight:600;padding:4px 10px;
+  background:rgba(30,18,6,.05);border:1px solid var(--border);
+  border-radius:6px;color:var(--text3);letter-spacing:.03em;
+}
+
+/* connector lines from circle to card */
+.prog-item::after{
+  content:'';
+  position:absolute;top:50%;height:1px;
+  background:rgba(184,28,28,.15);
+  z-index:1;
+}
+.prog-item:nth-child(odd)::after{left:calc(50% - 80px);width:80px;transform:none;}
+.prog-item:nth-child(even)::after{left:50%;width:80px;transform:none;}
+
+@media(max-width:760px){
+  .prog-grid::before{left:28px;}
+  .prog-item{grid-template-columns:60px 1fr;grid-template-rows:auto;}
+  .prog-item:nth-child(odd) .prog-day-circle,
+  .prog-item:nth-child(even) .prog-day-circle{grid-column:1;grid-row:1;}
+  .prog-item:nth-child(odd) .prog-body,
+  .prog-item:nth-child(even) .prog-body{grid-column:2;grid-row:1;text-align:left;padding:0 0 0 1.5rem;}
+  .prog-item:nth-child(odd) .prog-tags,
+  .prog-item:nth-child(even) .prog-tags{justify-content:flex-start;}
+  .prog-spacer{display:none;}
+  .prog-item::after{display:none;}
+}
+
+/* ── TRANSFORMATION ── */
+#transformation{background:var(--bg2);}
+.tr-header{margin-bottom:3rem;}
+.tr-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:20px;overflow:hidden;}
+.tr-row{
+  display:grid;grid-template-columns:1fr 48px 1fr;
+  align-items:center;
+  background:var(--surface);
+}
+.tr-row:hover{background:var(--surface2);}
+.tr-before{padding:1.75rem 2rem;font-size:15px;color:var(--text3);line-height:1.6;}
+.tr-mid{display:flex;align-items:center;justify-content:center;}
+.tr-arrow-icon{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(184,28,28,.08);border:1px solid rgba(184,28,28,.18);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);font-size:14px;
+}
+.tr-after{padding:1.75rem 2rem;font-size:15px;color:var(--text);line-height:1.6;border-left:1px solid var(--border);}
+.tr-headers{display:grid;grid-template-columns:1fr 48px 1fr;margin-bottom:0;}
+.tr-hdr{padding:.75rem 2rem;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.tr-hdr.b{color:var(--text3);}
+.tr-hdr.a{color:var(--green);}
+
+/* ── ABOUT ── */
+#about{background:transparent;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:3rem;}}
+.about-visual{
+  aspect-ratio:1;border-radius:24px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:2rem;
+  position:relative;overflow:hidden;
+}
+.about-visual::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%,rgba(184,28,28,.06),transparent),
+    radial-gradient(ellipse 60% 80% at 80% 80%,rgba(154,111,10,.04),transparent);
+}
+.about-glyph{
+  position:absolute;top:2rem;left:2rem;
+  font-size:80px;font-weight:900;
+  color:rgba(184,28,28,.06);
+  letter-spacing:-.05em;line-height:1;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.about-name-big{font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:.25rem;position:relative;}
+.about-role-sm{font-size:13px;color:var(--text3);position:relative;}
+.about-nums-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;position:relative;}
+.about-num-card{background:rgba(30,18,6,.04);border:1px solid var(--border);border-radius:12px;padding:1rem;}
+.about-num-card .n{font-size:24px;font-weight:800;color:var(--accent);letter-spacing:-.02em;display:block;}
+.about-num-card .l{font-size:12px;color:var(--text3);}
+.about-text .section-label{margin-bottom:.75rem;}
+.about-text h2{margin-bottom:1.5rem;}
+.about-lead{font-size:18px;color:var(--text);line-height:1.7;margin-bottom:1.25rem;font-weight:500;}
+.about-body{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;}
+.about-quote-block{
+  margin:2rem 0;padding:1.5rem 1.75rem;
+  background:rgba(184,28,28,.04);
+  border:1px solid rgba(184,28,28,.14);
+  border-radius:14px;
+  border-left:3px solid var(--accent);
+}
+.about-quote-block p{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:var(--text);line-height:1.6;}
+.about-quote-block cite{display:block;margin-top:.75rem;font-size:12px;font-style:normal;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);}
+.about-socials{display:flex;gap:.75rem;margin-top:2rem;}
+.about-soc{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;color:var(--text2);
+  text-decoration:none;padding:10px 16px;
+  background:rgba(30,18,6,.04);border:1px solid var(--border);
+  border-radius:10px;transition:all .2s;
+}
+.about-soc:hover{background:rgba(184,28,28,.08);border-color:rgba(184,28,28,.22);color:var(--accent);}
+
+/* ── WHY ── */
+#why{background:var(--bg2);}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+@media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+.why-card{padding:2rem;transition:all .25s;position:relative;overflow:hidden;}
+.why-card::after{
+  content:'';position:absolute;bottom:0;left:2rem;right:2rem;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  transform:scaleX(0);transform-origin:center;transition:transform .3s;
+}
+.why-card:hover{border-color:rgba(99,102,241,.25);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.25);}
+.why-card:hover::after{transform:scaleX(1);}
+.why-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:1.25rem;
+}
+.why-card h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:.6rem;}
+.why-card p{font-size:14px;color:var(--text2);line-height:1.65;}
+
+/* ── FAQ ── */
+#faq{background:transparent;}
+.faq-layout{display:grid;grid-template-columns:380px 1fr;gap:6rem;}
+@media(max-width:1000px){.faq-layout{grid-template-columns:1fr;gap:3rem;}}
+.faq-left h2{margin-bottom:1.5rem;}
+.faq-left p{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:2rem;}
+.faq-contact{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:600;color:var(--accent3);
+  text-decoration:none;
+  padding:12px 20px;
+  background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);
+  border-radius:10px;transition:all .2s;
+}
+.faq-contact:hover{background:rgba(99,102,241,.14);border-color:rgba(99,102,241,.35);}
+.faq-list{display:flex;flex-direction:column;gap:0;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.5rem 0;cursor:pointer;gap:1rem;
+}
+.faq-q-text{font-size:16px;font-weight:600;color:var(--text);line-height:1.4;}
+.faq-toggle{
+  width:30px;height:30px;flex-shrink:0;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  color:var(--text2);font-size:18px;font-weight:300;
+  transition:all .3s;
+}
+.faq-item.open .faq-toggle{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.3);color:var(--accent3);transform:rotate(45deg);}
+.faq-a{overflow:hidden;max-height:0;transition:max-height .4s ease;}
+.faq-a-inner{padding-bottom:1.5rem;font-size:15px;color:var(--text2);line-height:1.75;}
+.faq-item.open .faq-a{max-height:300px;}
+
+/* ── CTA FINAL ── */
+#cta-final{background:var(--bg2);overflow:hidden;}
+.cta-box{
+  border-radius:24px;
+  padding:5rem 4rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(99,102,241,.02));
+  border:1px solid rgba(99,102,241,.2);
+}
+.cta-box::before{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(99,102,241,.12),transparent 70%);
+  pointer-events:none;
+}
+.cta-box .badge{margin-bottom:2rem;}
+.cta-box h2{font-size:clamp(40px,6vw,72px);margin-bottom:1.5rem;}
+.cta-box p{font-size:18px;color:var(--text2);line-height:1.7;max-width:520px;margin:0 auto 2.5rem;}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.cta-meta{font-size:13px;color:var(--text3);}
+.cta-meta span{color:var(--green2);font-weight:600;}
+
+/* ── FOOTER ── */
+footer{
+  padding:2.5rem 0;
+  border-top:1px solid var(--border);
+  background:var(--bg);
+  position:relative;z-index:1;
+}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.02em;}
+.footer-logo span{color:var(--accent2);}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
+.footer-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--text2);}
+.footer-copy{font-size:12px;color:var(--text3);}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.fade-right{opacity:0;transform:translateX(32px);transition:opacity .7s ease,transform .7s ease;}
+.fade-right.in{opacity:1;transform:translateX(0);}
+.fade-up:nth-child(2){transition-delay:.1s;}
+.fade-up:nth-child(3){transition-delay:.2s;}
+
+@media(max-width:760px){
+  .container{padding:0 1.25rem;}
+  nav{top:8px;width:calc(100% - 2rem);padding:0 1rem;}
+  nav .nav-links{display:none;}
+  .cta-box{padding:3rem 1.5rem;}
+  .tr-grid{overflow-x:auto;}
+  .stats-inner{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">THE <span>CASH</span></a>
+  <ul class="nav-links">
+    <li><a href="#for-whom">Для кого</a></li>
+    <li><a href="#program">Програма</a></li>
+    <li><a href="#bonuses">Бонуси</a></li>
+    <li><a href="#about">Автор</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="nav-cta">Отримати — 970 ₴ →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fade-up" style="padding-left:3rem;">
+        <div class="badge">Content Papa · The Cash Метод 2026</div>
+        <h1 class="hero-h1">
+          Метод, що<br>
+          перетворює<br>
+          контент на<br>
+          <span class="italic grad">прибуток</span>
+        </h1>
+        <p class="hero-sub">Перетвори за 5 днів свій блог на бізнес-систему, яка генерує гроші щодня. Без хаосу, без зливу бюджету.</p>
+        <div class="hero-actions">
+          <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="btn-primary">Забрати метод <span>→</span></a>
+          <a href="#program" class="btn-secondary">Дивитись програму</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">5 днів до результату</span></div>
+          <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">100% гарантія повернення</span></div>
+          <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">Доступ назавжди</span></div>
+        </div>
+      </div>
+      <div class="fade-right" style="display:flex;justify-content:flex-end;padding-right:3rem;">
+        <div class="glass hero-card">
+          <div class="hc-label">Вартість методу</div>
+          <div class="hc-price"><small>₴</small>970</div>
+          <div class="hc-note">Одноразова оплата · Всі оновлення включено</div>
+          <ul class="hc-features">
+            <li>5 днів інтенсивного навчання</li>
+            <li>AI-асистент з розширеним доступом</li>
+            <li>Щоденні практичні бонуси</li>
+            <li>Контент-план і воронки продажів</li>
+            <li>Особиста підтримка автора</li>
+            <li>Всі майбутні оновлення матеріалів</li>
+          </ul>
+          <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="hc-btn">Приєднатись до The Cash →</a>
+          <div class="hc-guarantee">🛡 Не підійшло — повернемо гроші</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip" style="position:relative;z-index:1;">
+  <div class="container" style="padding:0;">
+    <div class="stats-inner">
+      <div class="stat-cell"><span class="stat-num accent">5</span><span class="stat-label">Днів інтенсиву</span></div>
+      <div class="stat-cell"><span class="stat-num">12+</span><span class="stat-label">Років у бізнесі автора</span></div>
+      <div class="stat-cell"><span class="stat-num">$18M+</span><span class="stat-label">Оборот компанії</span></div>
+      <div class="stat-cell"><span class="stat-num accent">100%</span><span class="stat-label">Гарантія повернення</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOR WHOM -->
+<section id="for-whom">
+  <div class="container">
+    <div class="fw-header fade-up">
+      <div>
+        <div class="section-label">Для кого</div>
+        <h2>Хто отримає <span class="italic grad">результат?</span></h2>
+      </div>
+      <p>Метод підходить для будь-якого рівня — від нуля до масштабування. Головне: готовність впровадити систему.</p>
+    </div>
+    <div class="fw-grid fade-up">
+      <div class="fw-card">
+        <div class="fw-num">01 / Експерт</div>
+        <h3>Ти маєш знання</h3>
+        <p>Але заробляєш недостатньо. Блог бачать лише знайомі, нова аудиторія не приходить.</p>
+        <div class="fw-result">Нові клієнти без довгих прогрівів.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-num">02 / Зростання</div>
+        <h3>Хочеш масштабуватись</h3>
+        <p>Вперся у стелю і не знаєш, як рухатись далі без ризику втратити наявне.</p>
+        <div class="fw-result">Масштабування без зламу старого.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-num">03 / Час</div>
+        <h3>Витрачаєш час на контент</h3>
+        <p>Контент «цікавий», але не продає і не приносить достатньо грошей.</p>
+        <div class="fw-result">Система, що перетворює на клієнта.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-num">04 / Старт</div>
+        <h3>Не знаєш з чого почати</h3>
+        <p>Тонеш в інформаційному шумі. Не розумієш що, навіщо і в якому порядку.</p>
+        <div class="fw-result">Покрокова архітектура без помилок.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-num">05 / Система</div>
+        <h3>Потребуєш бізнес-системи</h3>
+        <p>Готовий перетворити блог на машину з регулярними оплатами кожного дня.</p>
+        <div class="fw-result">Воронки, що працюють за тебе 24/7.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="btn-primary">Забрати метод →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BONUSES -->
+<section id="bonuses">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:3rem;">
+      <div class="section-label">Що включено</div>
+      <h2>Бонуси, що дають <span class="italic grad-green">результат</span></h2>
+    </div>
+    <div class="bonus-grid fade-up">
+      <div class="glass bonus-card">
+        <div class="bonus-icon green">📊</div>
+        <h3>Щоденні бонуси</h3>
+        <div class="bonus-sub">Після кожного уроку</div>
+        <ul>
+          <li>Табличка конкурентів</li>
+          <li>Табличка аналізу ЦА</li>
+          <li>Питання для кастдевів</li>
+          <li>Чек-лист «Аудит упаковки»</li>
+          <li>100 гачків для сторіз</li>
+        </ul>
+      </div>
+      <div class="bonus-card main featured">
+        <div class="bonus-featured-tag">Головний бонус</div>
+        <div class="bonus-icon purple">🤖</div>
+        <h3>AI-Асистент</h3>
+        <div class="bonus-sub">Твій персональний креативний відділ</div>
+        <ul>
+          <li>Пише віральні сценарії для Reels за 30 секунд</li>
+          <li>Генерує ідеї, що залітають у рекомендації</li>
+          <li>Транскрибація думок у готові пости</li>
+          <li>Сторітелінги, що додивляються до кінця</li>
+          <li>Постійне оновлення функцій</li>
+        </ul>
+      </div>
+      <div class="glass bonus-card">
+        <div class="bonus-icon amber">⚙️</div>
+        <h3>Практичні інструменти</h3>
+        <div class="bonus-sub">Фреймворки для впровадження</div>
+        <ul>
+          <li>Полювання за сенсами</li>
+          <li>Метод цифрового аватару</li>
+          <li>Формула «Золотий перетин»</li>
+          <li>Мікроконверсійні воронки</li>
+          <li>Контент-план за сходами</li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="btn-primary">Хочу бонуси та метод →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="program">
+  <div class="container">
+    <div class="prog-header fade-up">
+      <div>
+        <div class="section-label">Програма</div>
+        <h2>5 зупинок на шляху<br>до <span class="italic grad">каси</span></h2>
+      </div>
+      <p style="font-size:16px;color:var(--text2);max-width:380px;line-height:1.7;">Кожен день — конкретний результат і готові інструменти, які впроваджуєш одразу.</p>
+    </div>
+    <div class="prog-grid fade-up">
+      <div class="prog-item">
+        <div class="prog-body">
+          <h3>Позиціонування та аудиторія</h3>
+          <p>Зрозумієш, як виділитися серед тисяч конкурентів і стати єдиним логічним вибором для своєї аудиторії.</p>
+          <div class="prog-tags">
+            <span class="ptag">Таблиця конкурентів</span><span class="ptag">Аналіз ЦА</span><span class="ptag">Кастдеви</span><span class="ptag">Полювання за сенсами</span>
+          </div>
+        </div>
+        <div class="prog-day-circle">1</div>
+        <div class="prog-spacer"></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-spacer"></div>
+        <div class="prog-day-circle">2</div>
+        <div class="prog-body">
+          <h3>Упаковка профілю</h3>
+          <p>Створиш профіль, який миттєво викликає довіру і автоматично конвертує відвідувача у підписника.</p>
+          <div class="prog-tags">
+            <span class="ptag">Аудит упаковки</span><span class="ptag">Цифровий аватар</span><span class="ptag">Золотий перетин</span><span class="ptag">Мікроворонки</span>
+          </div>
+        </div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-body">
+          <h3>Контент-система</h3>
+          <p>Назавжди забудеш «що постити» і впровадиш систему, яка веде клієнта від першого перегляду до покупки.</p>
+          <div class="prog-tags">
+            <span class="ptag">100 гачків</span><span class="ptag">Контент-план</span><span class="ptag">Сходи усвідомленості</span>
+          </div>
+        </div>
+        <div class="prog-day-circle">3</div>
+        <div class="prog-spacer"></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-spacer"></div>
+        <div class="prog-day-circle">4</div>
+        <div class="prog-body">
+          <h3>Воронки продажів</h3>
+          <p>Побудуєш воронки, що працюють 24/7 і приносять заявки та гроші, поки ти відпочиваєш.</p>
+          <div class="prog-tags">
+            <span class="ptag">Архітектура воронок</span><span class="ptag">Шлях клієнта</span><span class="ptag">Автопродажі</span>
+          </div>
+        </div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-body">
+          <h3>Продажі та закриття</h3>
+          <p>Дізнаєшся мистецтво закриття угод, щоб клієнт сам казав: «Куди платити гроші?»</p>
+          <div class="prog-tags">
+            <span class="ptag">Закриття угод</span><span class="ptag">Робота з запереченнями</span><span class="ptag">AI-асистент 🎁</span>
+          </div>
+        </div>
+        <div class="prog-day-circle">5</div>
+        <div class="prog-spacer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMATION -->
+<section id="transformation">
+  <div class="container">
+    <div class="tr-header fade-up">
+      <div class="section-label">Трансформація</div>
+      <h2>Результат <span class="italic grad">після інтенсиву</span></h2>
+    </div>
+    <div class="fade-up">
+      <div class="tr-headers">
+        <div class="tr-hdr b">До інтенсиву</div>
+        <div></div>
+        <div class="tr-hdr a">Після інтенсиву</div>
+      </div>
+      <div class="tr-grid">
+        <div class="tr-row">
+          <div class="tr-before">Робиш контент «в нікуди», охоплення падають, а грошей не додається.</div>
+          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
+          <div class="tr-after">Кожен пост, рілс, сторіз — продуманий крок, який веде до покупки.</div>
+        </div>
+        <div class="tr-row">
+          <div class="tr-before">Боїшся здаватися нав'язливим, тому просто робиш «корисний» контент.</div>
+          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
+          <div class="tr-after">Продаєш впевнено, бо знаєш: твій продукт реально вирішує біль клієнта.</div>
+        </div>
+        <div class="tr-row">
+          <div class="tr-before">Постійний хаос: то Reels знімати, то шапку міняти, то кастдеви робити.</div>
+          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
+          <div class="tr-after">Чітка карта: що, навіщо і в якій послідовності, щоб отримати CASH.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fade-up">
+        <div class="about-glyph">SD</div>
+        <div class="about-name-big">Сергій Дєлєєв</div>
+        <div class="about-role-sm">Content Papa · Підприємець · Практик</div>
+        <div class="about-nums-grid">
+          <div class="about-num-card"><span class="n">12+</span><span class="l">Років у бізнесі</span></div>
+          <div class="about-num-card"><span class="n">$18M+</span><span class="l">Оборот компанії</span></div>
+          <div class="about-num-card"><span class="n">2012</span><span class="l">Рік старту</span></div>
+          <div class="about-num-card"><span class="n">2024</span><span class="l">Вихід в онлайн</span></div>
+        </div>
+      </div>
+      <div class="about-text fade-right">
+        <div class="section-label">Автор методу</div>
+        <h2>Хто я і чому<br><span class="italic grad">метод працює?</span></h2>
+        <p class="about-lead">Я не «інфопродюсер» чи «вчитель». Я — практик, який пройшов шлях від повного краху до реалізації всіх цілей.</p>
+        <p class="about-body">12 років у бізнесі: починав у 2012-му з офлайну. Створив студію звукозапису, продавав одяг, займався імпортом обладнання. Як CEO будував компанію до обороту $18 000 000+ на рік. З 2024 року — повністю в онлайні та присвятив себе маркетингу.</p>
+        <div class="about-quote-block">
+          <p>У 2014 році я втратив усе. В кишені залишилося лише $200. Але вже у 2017-му я повернувся у бізнес. Я знаю, який метод потрібен, щоб більше не падати.</p>
+          <cite>— Сергій Дєлєєв, Content Papa</cite>
+        </div>
+        <p class="about-body">Я зробив цей метод максимально доступним, щоб люди мали змогу отримати фундамент без ризику для бюджету. Я все ще вірю в людей.</p>
+        <div class="about-socials">
+          <a href="https://www.instagram.com/content_papa/" class="about-soc" target="_blank">Instagram ↗</a>
+          <a href="https://www.youtube.com/@content_dad" class="about-soc" target="_blank">YouTube ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:3rem;">
+      <div class="section-label">Результати</div>
+      <h2>Ось чому ти<br><span class="italic grad">почнеш заробляти</span></h2>
+    </div>
+    <div class="why-grid fade-up">
+      <div class="glass why-card">
+        <div class="why-icon">🎯</div>
+        <h3>Магніт для клієнтів</h3>
+        <p>Навчишся притягувати «своїх» людей, які готові платити, а не просто ставити лайки.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">💎</div>
+        <h3>Упаковка «на мільйон»</h3>
+        <p>Профіль, де за 3 секунди зрозуміло, чому ти крутий і куди платити гроші.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">🎬</div>
+        <h3>Reels, що продають</h3>
+        <p>Контент, що не просто збирає перегляди, а приводить цільових клієнтів.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">⚡</div>
+        <h3>Автопілот у продажах</h3>
+        <p>Прості воронки, що працюють поки ти відпочиваєш — 24 години на добу.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">🧠</div>
+        <h3>Впевненість підприємця</h3>
+        <p>Перестанеш боятися слова «продаю» і почнеш допомагати за достойний чек.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">📅</div>
+        <h3>Контент без мук</h3>
+        <p>План на місяць за годину. Назавжди забудеш «що сьогодні постити?»</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-left fade-up">
+        <div class="section-label">FAQ</div>
+        <h2>Твої запитання — <span class="italic grad">мої відповіді</span></h2>
+        <p>Є ще запитання? Пиши мені в інстаграм — відповідаю всім і завжди.</p>
+        <a href="https://www.instagram.com/content_papa/" class="faq-contact" target="_blank">Написати в Instagram ↗</a>
+      </div>
+      <div class="faq-list fade-right">
+        <div class="faq-item">
+          <div class="faq-q">
+            <span class="faq-q-text">Чи підійде мені метод, якщо я новачок?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Так, я пояснюю простою мовою та розкладаю по поличках весь метод етап за етапом. Надаю додаткові практичні інструменти, щоб ще в процесі проходження інтенсиву твій блог починав перетворюватися на бізнес-систему та приносив гроші.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span class="faq-q-text">Чи підійде мені, якщо я вже маю досвід монетизації?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Так, бо на інтенсиві є не лише фундаментальні знання, але й дрібниці, що крадуть відсоток від доходу. Ти запровадиш це і побачиш, як збільшиться дохід.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span class="faq-q-text">Що робити, якщо мені не підійшло?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Якщо ти впровадиш метод і не відчуєш покращення — поверну оплату в будь-який час. Без питань і без умов.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span class="faq-q-text">Куди звертатись, якщо є питання?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Пиши в будь-який час до мене в інстаграм, навіть якщо не купив The CASH. Всі, хто зі мною хоч колись комунікував, знають: я завжди відповідаю на всі питання.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta-final">
+  <div class="container">
+    <div class="cta-box fade-up">
+      <div class="badge">Тільки 970 грн · Доступ назавжди</div>
+      <h2>Метод, що перетворює<br><span class="italic grad">контент на прибуток</span></h2>
+      <p>За ціною одного сніданку — бізнес-система, яка окупиться з першого продажу. Чого ти ще чекаєш?</p>
+      <div class="cta-actions">
+        <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="btn-primary" style="font-size:16px;padding:18px 40px;">Отримати метод зараз →</a>
+      </div>
+      <div class="cta-meta"><span>✓ 100% гарантія повернення</span> &nbsp;·&nbsp; <span>✓ Всі оновлення включено</span> &nbsp;·&nbsp; <span>✓ Підтримка автора</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">THE <span>CASH</span></a>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/content_papa/" target="_blank">Інстаграм</a>
+        <a href="https://drive.google.com/file/d/13hOYbrpn0vnMXlEFf5tPTpw0y_Z-2hN2/view?usp=sharing" target="_blank">Договір оферти</a>
+        <a href="https://drive.google.com/file/d/1Xk_Bzx3jh5mdAIiMxPlFSBHoSC4QnnTX/view?usp=sharing" target="_blank">Політика конфіденційності</a>
+      </div>
+      <div class="footer-copy">ФОП Дєлєєва Катерина Олександрівна, РНОКПП 3464401947</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.closest('.faq-item');
+    const was=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!was)item.classList.add('open');
+  });
+});
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-up,.fade-right').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
