@@ -467,28 +467,56 @@ h2 .italic{font-family:'Instrument Serif',serif;font-style:italic;font-weight:40
 }
 
 /* ── TRANSFORMATION ── */
-#transformation{background:var(--bg2);}
-.tr-header{margin-bottom:3rem;}
-.tr-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:20px;overflow:hidden;}
-.tr-row{
-  display:grid;grid-template-columns:1fr 48px 1fr;
-  align-items:center;
-  background:var(--surface);
+#transformation{
+  background:linear-gradient(135deg,#1A0A0A 0%,#2A0C0C 50%,#1A0A0A 100%);
+  position:relative;overflow:hidden;
 }
-.tr-row:hover{background:var(--surface2);}
-.tr-before{padding:1.75rem 2rem;font-size:15px;color:var(--text3);line-height:1.6;}
-.tr-mid{display:flex;align-items:center;justify-content:center;}
-.tr-arrow-icon{
+#transformation::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(184,28,28,.18),transparent 60%),
+             radial-gradient(ellipse 50% 60% at 80% 50%,rgba(21,128,61,.10),transparent 60%);
+  pointer-events:none;
+}
+.tr-header{margin-bottom:3.5rem;position:relative;z-index:1;}
+.tr-header .section-label{color:rgba(255,245,235,.45);}
+.tr-header h2{color:#FAF7F2;}
+.tr-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;position:relative;z-index:1;}
+@media(max-width:760px){.tr-cols{grid-template-columns:1fr;}}
+.tr-col-before,.tr-col-after{border-radius:20px;overflow:hidden;}
+.tr-col-hdr{
+  display:flex;align-items:center;gap:12px;
+  padding:1.25rem 1.75rem;font-size:14px;font-weight:700;letter-spacing:.04em;
+}
+.tr-col-hdr .tr-hdr-icon{
   width:32px;height:32px;border-radius:50%;
-  background:rgba(184,28,28,.08);border:1px solid rgba(184,28,28,.18);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--accent);font-size:14px;
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
 }
-.tr-after{padding:1.75rem 2rem;font-size:15px;color:var(--text);line-height:1.6;border-left:1px solid var(--border);}
-.tr-headers{display:grid;grid-template-columns:1fr 48px 1fr;margin-bottom:0;}
-.tr-hdr{padding:.75rem 2rem;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
-.tr-hdr.b{color:var(--text3);}
-.tr-hdr.a{color:var(--green);}
+.tr-col-before .tr-col-hdr{background:#B81C1C;color:#FAF7F2;}
+.tr-col-before .tr-hdr-icon{background:rgba(255,255,255,.15);}
+.tr-col-after .tr-col-hdr{background:#166534;color:#FAF7F2;}
+.tr-col-after .tr-hdr-icon{background:rgba(255,255,255,.15);}
+.tr-col-body{display:flex;flex-direction:column;gap:1px;}
+.tr-col-before .tr-col-body{background:rgba(184,28,28,.08);}
+.tr-col-after .tr-col-body{background:rgba(21,128,61,.06);}
+.tr-item{
+  padding:1.25rem 1.75rem;font-size:14px;line-height:1.65;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.tr-col-before .tr-item{
+  background:rgba(184,28,28,.06);color:rgba(255,235,230,.72);
+  border-bottom:1px solid rgba(184,28,28,.12);
+}
+.tr-col-after .tr-item{
+  background:rgba(21,128,61,.05);color:rgba(235,255,245,.8);
+  border-bottom:1px solid rgba(21,128,61,.10);
+}
+.tr-item:last-child{border-bottom:none;}
+.tr-item-dot{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+}
+.tr-col-before .tr-item-dot{background:rgba(184,28,28,.25);color:#FF8080;}
+.tr-col-after .tr-item-dot{background:rgba(21,128,61,.25);color:#4ADE80;}
 
 /* ── ABOUT ── */
 #about{background:transparent;}
@@ -645,6 +673,49 @@ footer{
 .fade-up:nth-child(2){transition-delay:.1s;}
 .fade-up:nth-child(3){transition-delay:.2s;}
 
+/* ── HERO PARTICLES ── */
+#hero-canvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+
+/* ── CALCULATOR WOW BLOCK ── */
+#calculator{background:var(--bg);padding:100px 0;overflow:hidden;position:relative;}
+#calculator::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(184,28,28,.06),transparent 70%);
+  pointer-events:none;
+}
+.calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+@media(max-width:900px){.calc-wrap{grid-template-columns:1fr;gap:3rem;}}
+.calc-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.calc-label-row label{font-size:13px;font-weight:600;color:var(--text2);}
+.calc-label-row span{font-size:13px;color:var(--accent);font-weight:700;}
+.calc-slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;margin-bottom:1.75rem;
+  background:linear-gradient(90deg,var(--accent) var(--p,50%),rgba(30,18,6,.12) var(--p,50%));
+}
+.calc-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,#B81C1C,#D02828);box-shadow:0 2px 10px rgba(184,28,28,.4);cursor:pointer;
+}
+.calc-slider::-moz-range-thumb{
+  width:20px;height:20px;border:none;border-radius:50%;
+  background:linear-gradient(135deg,#B81C1C,#D02828);box-shadow:0 2px 10px rgba(184,28,28,.4);cursor:pointer;
+}
+.calc-result-ring{position:relative;width:220px;height:220px;margin:0 auto 2rem;}
+.calc-result-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.calc-ring-bg{fill:none;stroke:rgba(30,18,6,.07);stroke-width:8;}
+.calc-ring-fill{fill:none;stroke:url(#rg);stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:628;stroke-dashoffset:628;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+.calc-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.calc-ring-amount{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1;}
+.calc-ring-label{font-size:12px;color:var(--text3);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+.calc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;}
+.calc-metric{background:rgba(30,18,6,.04);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
+.calc-metric .mv{font-size:20px;font-weight:800;color:var(--accent);letter-spacing:-.02em;}
+.calc-metric .ml{font-size:11px;color:var(--text3);margin-top:2px;font-weight:600;}
+.calc-cta-note{margin-top:2rem;font-size:13px;color:var(--text3);text-align:center;line-height:1.6;}
+.calc-highlight{display:inline-block;background:rgba(184,28,28,.08);border:1px solid rgba(184,28,28,.18);border-radius:6px;padding:2px 8px;color:var(--accent);font-weight:700;}
+
 @media(max-width:760px){
   .container{padding:0 1.25rem;}
   nav{top:8px;width:calc(100% - 2rem);padding:0 1rem;}
@@ -672,6 +743,7 @@ footer{
 
 <!-- HERO -->
 <section id="hero">
+  <canvas id="hero-canvas"></canvas>
   <div class="container">
     <div class="hero-inner">
       <div class="fade-up" style="padding-left:3rem;">
@@ -903,27 +975,27 @@ footer{
       <div class="section-label">Трансформація</div>
       <h2>Результат <span class="italic grad">після інтенсиву</span></h2>
     </div>
-    <div class="fade-up">
-      <div class="tr-headers">
-        <div class="tr-hdr b">До інтенсиву</div>
-        <div></div>
-        <div class="tr-hdr a">Після інтенсиву</div>
+    <div class="tr-cols fade-up">
+      <div class="tr-col-before">
+        <div class="tr-col-hdr">
+          <div class="tr-hdr-icon">✕</div>
+          Було до інтенсиву
+        </div>
+        <div class="tr-col-body">
+          <div class="tr-item"><div class="tr-item-dot">✕</div>Робиш контент «в нікуди», охоплення падають, а грошей не додається.</div>
+          <div class="tr-item"><div class="tr-item-dot">✕</div>Боїшся здаватися нав'язливим, тому просто робиш «корисний» контент.</div>
+          <div class="tr-item"><div class="tr-item-dot">✕</div>Постійний хаос: то Reels знімати, то шапку міняти, то кастдеви робити.</div>
+        </div>
       </div>
-      <div class="tr-grid">
-        <div class="tr-row">
-          <div class="tr-before">Робиш контент «в нікуди», охоплення падають, а грошей не додається.</div>
-          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
-          <div class="tr-after">Кожен пост, рілс, сторіз — продуманий крок, який веде до покупки.</div>
+      <div class="tr-col-after">
+        <div class="tr-col-hdr">
+          <div class="tr-hdr-icon">✓</div>
+          Стало після інтенсиву
         </div>
-        <div class="tr-row">
-          <div class="tr-before">Боїшся здаватися нав'язливим, тому просто робиш «корисний» контент.</div>
-          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
-          <div class="tr-after">Продаєш впевнено, бо знаєш: твій продукт реально вирішує біль клієнта.</div>
-        </div>
-        <div class="tr-row">
-          <div class="tr-before">Постійний хаос: то Reels знімати, то шапку міняти, то кастдеви робити.</div>
-          <div class="tr-mid"><div class="tr-arrow-icon">→</div></div>
-          <div class="tr-after">Чітка карта: що, навіщо і в якій послідовності, щоб отримати CASH.</div>
+        <div class="tr-col-body">
+          <div class="tr-item"><div class="tr-item-dot">✓</div>Кожен пост, рілс, сторіз — продуманий крок, який веде до покупки.</div>
+          <div class="tr-item"><div class="tr-item-dot">✓</div>Продаєш впевнено, бо знаєш: твій продукт реально вирішує біль клієнта.</div>
+          <div class="tr-item"><div class="tr-item-dot">✓</div>Чітка карта: що, навіщо і в якій послідовності, щоб отримати CASH.</div>
         </div>
       </div>
     </div>
@@ -1065,6 +1137,66 @@ footer{
   </div>
 </section>
 
+<!-- CALCULATOR WOW -->
+<section id="calculator">
+  <div class="container">
+    <div class="calc-wrap">
+      <div class="fade-up">
+        <div class="section-label">Твій потенціал</div>
+        <h2>Скільки ти можеш<br>заробити вже <span class="italic grad">за місяць?</span></h2>
+        <p style="font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:2.5rem;">Пересувай слайдери — і дивися, як зростає твій потенційний дохід після впровадження The CASH методу.</p>
+        <div>
+          <div class="calc-label-row">
+            <label>Підписників в Instagram</label>
+            <span id="lbl-subs">5 000</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-subs" min="500" max="100000" step="500" value="5000">
+          <div class="calc-label-row">
+            <label>Середній чек продукту</label>
+            <span id="lbl-price">3 000 ₴</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-price" min="500" max="30000" step="500" value="3000">
+          <div class="calc-label-row">
+            <label>Конверсія (% аудиторії купує)</label>
+            <span id="lbl-conv">1.5%</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-conv" min="0.5" max="5" step="0.1" value="1.5">
+        </div>
+        <div class="calc-cta-note">
+          Середня конверсія до The CASH — <span class="calc-highlight">0.3%</span>. Після методу — <span class="calc-highlight">1.5–3%</span>. Різниця — це твої гроші.
+        </div>
+      </div>
+      <div class="fade-right" style="text-align:center;">
+        <div class="calc-result-ring">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#B81C1C"/>
+                <stop offset="100%" stop-color="#D97706"/>
+              </linearGradient>
+            </defs>
+            <circle class="calc-ring-bg" cx="100" cy="100" r="88"/>
+            <circle class="calc-ring-fill" id="ring-fill" cx="100" cy="100" r="88"/>
+          </svg>
+          <div class="calc-ring-center">
+            <div class="calc-ring-amount" id="ring-amount">₴22 500</div>
+            <div class="calc-ring-label">на місяць</div>
+          </div>
+        </div>
+        <div class="calc-metrics">
+          <div class="calc-metric"><div class="mv" id="m-sales">7</div><div class="ml">Продажів</div></div>
+          <div class="calc-metric"><div class="mv" id="m-year">₴270k</div><div class="ml">На рік</div></div>
+          <div class="calc-metric"><div class="mv" id="m-roi">2 215%</div><div class="ml">ROI методу</div></div>
+          <div class="calc-metric"><div class="mv" id="m-day">₴750</div><div class="ml">На день</div></div>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="https://secure.wayforpay.com/button/be5ab168040d9" class="btn-primary">Почати заробляти →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -1081,18 +1213,89 @@ footer{
 </footer>
 
 <script>
+// FAQ
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
-    const item=q.closest('.faq-item');
-    const was=item.classList.contains('open');
+    const item=q.closest('.faq-item'),was=item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
     if(!was)item.classList.add('open');
   });
 });
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+
+// Scroll animations
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});
 },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fade-up,.fade-right').forEach(el=>io.observe(el));
+
+// ── HERO CANVAS PARTICLES ──
+(()=>{
+  const cv=document.getElementById('hero-canvas');
+  const ctx=cv.getContext('2d');
+  const syms=['₴','$','💰','✦','◆'];
+  let W,H,pts=[];
+  const resize=()=>{W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;};
+  resize();new ResizeObserver(resize).observe(cv);
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  const spawn=()=>({
+    x:rand(0,W),y:rand(-20,H),
+    vy:rand(.4,1.2),vx:rand(-.3,.3),
+    sym:syms[Math.floor(rand(0,syms.length))],
+    size:rand(11,22),op:rand(.06,.18),
+    rot:rand(0,Math.PI*2),vr:rand(-.01,.01)
+  });
+  for(let i=0;i<38;i++)pts.push(spawn());
+  const tick=()=>{
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      ctx.save();
+      ctx.globalAlpha=p.op;
+      ctx.font=`${p.size}px sans-serif`;
+      ctx.fillStyle='#FAF7F2';
+      ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+      ctx.fillText(p.sym,-p.size/2,-p.size/2);
+      ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;
+      if(p.y>H+30||p.x<-40||p.x>W+40)Object.assign(p,spawn(),{y:-20});
+    });
+    requestAnimationFrame(tick);
+  };tick();
+})();
+
+// ── CALCULATOR ──
+(()=>{
+  const fmt=n=>n>=1000?(n/1000).toFixed(n%1000===0?0:1)+'k':n;
+  const fmtUAH=n=>'₴'+fmt(Math.round(n));
+  const slSubs=document.getElementById('sl-subs');
+  const slPrice=document.getElementById('sl-price');
+  const slConv=document.getElementById('sl-conv');
+  const setSliderGrad=s=>{
+    const p=((s.value-s.min)/(s.max-s.min)*100).toFixed(1)+'%';
+    s.style.setProperty('--p',p);
+  };
+  const update=()=>{
+    const subs=+slSubs.value,price=+slPrice.value,conv=+slConv.value;
+    setSliderGrad(slSubs);setSliderGrad(slPrice);setSliderGrad(slConv);
+    document.getElementById('lbl-subs').textContent=subs.toLocaleString('uk');
+    document.getElementById('lbl-price').textContent=price.toLocaleString('uk')+' ₴';
+    document.getElementById('lbl-conv').textContent=conv.toFixed(1)+'%';
+    const sales=Math.round(subs*conv/100);
+    const monthly=sales*price;
+    const yearly=monthly*12;
+    const roi=Math.round((yearly-970)/970*100);
+    document.getElementById('ring-amount').textContent=fmtUAH(monthly);
+    document.getElementById('m-sales').textContent=sales;
+    document.getElementById('m-year').textContent=fmtUAH(yearly);
+    document.getElementById('m-roi').textContent=roi>0?roi+'%':'—';
+    document.getElementById('m-day').textContent=fmtUAH(monthly/30);
+    // ring progress — cap at max 95%
+    const pct=Math.min(monthly/300000,.95);
+    const fill=document.getElementById('ring-fill');
+    fill.style.strokeDashoffset=628*(1-pct);
+  };
+  [slSubs,slPrice,slConv].forEach(s=>{s.addEventListener('input',update);setSliderGrad(s);});
+  update();
+})();
 </script>
 </body>
 </html>
